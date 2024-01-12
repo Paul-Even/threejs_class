@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { FontLoader } from 'three/addons/loaders/FontLoader.js';
 import { TextGeometry } from 'three/addons/geometries/TextGeometry.js'
 import openSimplexNoise from 'https://cdn.skypack.dev/open-simplex-noise';
-import Planet from "./lib/Planet";
+import Planet from "./lib/Planet.js";
 
 
 
