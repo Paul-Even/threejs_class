@@ -2,9 +2,12 @@ import * as THREE from 'three';
 import { FontLoader } from 'three/addons/loaders/FontLoader.js';
 import { TextGeometry } from 'three/addons/geometries/TextGeometry.js'
 import openSimplexNoise from 'https://cdn.skypack.dev/open-simplex-noise';
-//import Planet from "./lib/Planet.js";
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 
-
+//#region Planet class creation
 export default class Planet {
     constructor(radius, positionX, positionY, textureFile) {
         this.radius = radius;
@@ -26,6 +29,7 @@ export default class Planet {
         return this.mesh;
     }
 }
+//#endregion
 
 //#region Creating a scene and a camera
 
@@ -236,7 +240,19 @@ function updateInfoText(message) {
     infoText.innerText = message;
 }
 
+const composer = new EffectComposer(renderer);
+const renderPass = new RenderPass(scene, camera);
+const bloomPass = new UnrealBloomPass(
+    new THREE.Vector2(window.innerWidth, window.innerHeight),
+    0.5, // strength
+    1, // radius
+    0.1 // threshold
+);
+const outputPass = new OutputPass();
 
+composer.addPass(renderPass);
+composer.addPass(bloomPass);
+composer.addPass(outputPass);
 //#region Create the animation loop
 const animate = () => {
     // Call animate recursively
@@ -263,7 +279,7 @@ const animate = () => {
     planet4System.rotation.x += 0.0025;
     planet4System.rotation.y += 0.007;
     planet4System.rotation.z += 0.005;
-
+    composer.render()
     //#endregion
 
 
