@@ -159,9 +159,8 @@ window.addEventListener('resize', () => {
     // Update the renderer
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
-    labelRenderer.setSize(this.window.innerWidth, this.window.innerHeight);
+
     renderer.render(scene, camera);
-    labelRenderer.render(scene, camera);
 
 });
 
@@ -170,7 +169,7 @@ window.addEventListener('resize', () => {
 
 //#region Creating the middle animated sphere
 
-let sphereGeometry = new THREE.SphereGeometry(4, 100, 100);
+let sphereGeometry = new THREE.SphereGeometry(4, 50, 50);
 sphereGeometry.positionData = [];
 let v3 = new THREE.Vector3();
 for (let i = 0; i < sphereGeometry.attributes.position.count; i++) {
@@ -192,26 +191,24 @@ window.addEventListener("resize", () => {
     camera.aspect = innerWidth / innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(innerWidth, innerHeight)
-    labelRenderer.setSize(this.window.innerWidth, this.window.innerHeight);
     renderer.render(scene, camera);
-    labelRenderer.render(scene, camera);
 
 
 });
 
-renderer.setAnimationLoop(() => {
-    let t = clock.getElapsedTime() / 1.;
-    sphereGeometry.positionData.forEach((p, idx) => {
-        let setNoise = noise(p.x, p.y, p.z, t * 1.05);
-        v3.copy(p).addScaledVector(p, setNoise);
-        sphereGeometry.attributes.position.setXYZ(idx, v3.x, v3.y, v3.z);
-    })
-    sphereGeometry.computeVertexNormals();
-    sphereGeometry.attributes.position.needsUpdate = true;
+// renderer.setAnimationLoop(() => {
+//     let t = clock.getElapsedTime() / 1.;
+//     sphereGeometry.positionData.forEach((p, idx) => {
+//         let setNoise = noise(p.x, p.y, p.z, t * 1.05);
+//         v3.copy(p).addScaledVector(p, setNoise);
+//         sphereGeometry.attributes.position.setXYZ(idx, v3.x, v3.y, v3.z);
+//     })
+//     sphereGeometry.computeVertexNormals();
+//     sphereGeometry.attributes.position.needsUpdate = true;
 
 
-    renderer.render(scene, camera);
-})
+//     renderer.render(scene, camera);
+// })
 //#endregion
 
 //#region Creating the Raycaster
@@ -244,7 +241,7 @@ const composer = new EffectComposer(renderer);
 const renderPass = new RenderPass(scene, camera);
 const bloomPass = new UnrealBloomPass(
     new THREE.Vector2(window.innerWidth, window.innerHeight),
-    0.5, // strength
+    0.3, // strength
     1, // radius
     0.1 // threshold
 );
@@ -279,7 +276,6 @@ const animate = () => {
     planet4System.rotation.x += 0.0025;
     planet4System.rotation.y += 0.007;
     planet4System.rotation.z += 0.005;
-    composer.render()
     //#endregion
 
 
@@ -341,7 +337,18 @@ const animate = () => {
 
 
     //#endregion
+    let t = clock.getElapsedTime() / 1.;
+    sphereGeometry.positionData.forEach((p, idx) => {
+        let setNoise = noise(p.x, p.y, p.z, t * 1.05);
+        v3.copy(p).addScaledVector(p, setNoise);
+        sphereGeometry.attributes.position.setXYZ(idx, v3.x, v3.y, v3.z);
+    })
+    sphereGeometry.computeVertexNormals();
+    sphereGeometry.attributes.position.needsUpdate = true;
 
+
+    // composer.render()
+    renderer.render(scene, camera)
 
 }
 
