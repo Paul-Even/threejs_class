@@ -3,16 +3,9 @@ import { FontLoader } from 'three/addons/loaders/FontLoader.js';
 import { TextGeometry } from 'three/addons/geometries/TextGeometry.js'
 import openSimplexNoise from 'https://cdn.skypack.dev/open-simplex-noise';
 import Planet from "./lib/Planet";
-import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
 
-//#region Creating the CSS 2D Text renderer
-const labelRenderer = new CSS2DRenderer();
-labelRenderer.setSize(window.innerWidth, window.innerHeight);
-labelRenderer.domElement.style.position = 'absolute';
-labelRenderer.domElement.style.top = '0px';
-labelRenderer.domElement.style.color = 'white';
-document.body.appendChild(labelRenderer.domElement);
-//#endregion
+
+
 
 //#region Creating a scene and a camera
 
@@ -117,28 +110,7 @@ scene.add(solarSystem);
 
 //#endregion
 
-//#region Creating the different displayed texts
-const text1 = document.createElement('p');
-text1.innerHTML = "The Art of Life is an innovative artistic project that aims to enhance the <br>interactivity in immersive art installations. By putting the human at the center of a generative artistic performance, <br> the Art of Life bring a platform for the users to both listen and vizualise themselves.<br>This can be used for relaxation purposes or just as an artistic experience.";
-const textObject1 = new CSS2DObject(text1);
-textObject1.position.set(window.innerWidth - 10, 0, 0);
 
-const text2 = document.createElement('p');
-text2.innerHTML = "By putting multiple biometrical sensors on its users, the installation can analyze their physiological state.<br>The sensors used in this project are an Electrocardiograph, monitoring the heart rate, <br>an Electrodermal activity sensor, monotoring the electrical properties of the skin, <br>and a breathing sensor monitoring the breathing rate of its users.";
-const textObject2 = new CSS2DObject(text2);
-textObject2.position.set(-13, -9, 0);
-
-const text3 = document.createElement('p');
-text3.innerHTML = "The users' raw data is processed to make it readable by the different softwares used to convert the said data.<br>Received as arrays of value, the processing outputs simple values, such as the beating per minute or breaths per minute."
-const textObject3 = new CSS2DObject(text3);
-textObject3.position.set(-11, -9, 0);
-
-const text4 = document.createElement('p');
-text4.innerHTML = "The processed data is finally sent to different softwares, such as FL Studio for the sonification or MadMapper for the video-mapping of the data.<br>The mapping is projected on a 3D Sculpture placed on a wall in front of the users, showing visuals that reflects the physiological signals received.<br>While the visuals are shown, music is generated in an headset for the users to listen to, giving a melody to their own body."
-const textObject4 = new CSS2DObject(text4);
-textObject4.position.set(-9, -9, 0);
-
-//#endregion
 
 //#region Import the canvas + resize 
 
@@ -278,93 +250,11 @@ const animate = () => {
     //#region Raycaster events
     raycaster.setFromCamera(pointerPosition, camera);
     const planet1_intersects = raycaster.intersectObject(planet1System);
-    if (planet1_intersects.length > 0) {
-        planet1Mesh.material.opacity = 0.5;
-
-        updateInfoText('The Art of Life is an innovative artistic project that aims to enhance the\ninteractivity in immersive art installations. By putting the human at the center of a generative artistic performance, \nthe Art of Life bring a platform for the users to both listen and vizualise themselves.\nThis can be used for relaxation purposes or just as an artistic experience.');
-        particles.rotation.x -= 0.0025;
-        particles.rotation.y -= 0.007;
-        particles.rotation.z -= 0.005;
-        particles2.rotation.x -= 0.0025;
-        particles2.rotation.y -= 0.007;
-        particles2.rotation.z -= 0.005;
-
-        planet1System.rotation.x -= 0.0025;
-        planet1System.rotation.y -= 0.007;
-        planet1System.rotation.z -= 0.005;
-        planet2System.rotation.x -= 0.0025;
-        planet2System.rotation.y -= 0.007;
-        planet2System.rotation.z -= 0.005;
-        planet3System.rotation.x -= 0.0025;
-        planet3System.rotation.y -= 0.007;
-        planet3System.rotation.z -= 0.005;
-        planet4System.rotation.x -= 0.0025;
-        planet4System.rotation.y -= 0.007;
-        planet4System.rotation.z -= 0.005;
-    } else {
-        planet1Mesh.material.opacity = 1;
-        updateInfoText('');
-
-    }
-
     const planet2_intersects = raycaster.intersectObject(planet2System);
-    if (planet2_intersects.length > 0 && planet1_intersects <= 0) {
-        planet2Mesh.material.opacity = 0.5;
-        scene.add(textObject2);
-        particles.rotation.x -= 0.0025;
-        particles.rotation.y -= 0.007;
-        particles.rotation.z -= 0.005;
-        particles2.rotation.x -= 0.0025;
-        particles2.rotation.y -= 0.007;
-        particles2.rotation.z -= 0.005;
-
-        planet1System.rotation.x -= 0.0025;
-        planet1System.rotation.y -= 0.007;
-        planet1System.rotation.z -= 0.005;
-        planet2System.rotation.x -= 0.0025;
-        planet2System.rotation.y -= 0.007;
-        planet2System.rotation.z -= 0.005;
-        planet3System.rotation.x -= 0.0025;
-        planet3System.rotation.y -= 0.007;
-        planet3System.rotation.z -= 0.005;
-        planet4System.rotation.x -= 0.0025;
-        planet4System.rotation.y -= 0.007;
-        planet4System.rotation.z -= 0.005;
-    } else {
-        planet2Mesh.material.opacity = 1;
-        scene.remove(textObject2);
-    }
     const planet3_intersects = raycaster.intersectObject(planet3System);
-    if (planet3_intersects.length > 0 && planet1_intersects <= 0 && planet2_intersects <= 0) {
-        planet3Mesh.material.opacity = 0.5;
-        scene.add(textObject3);
-        particles.rotation.x -= 0.0025;
-        particles.rotation.y -= 0.007;
-        particles.rotation.z -= 0.005;
-        particles2.rotation.x -= 0.0025;
-        particles2.rotation.y -= 0.007;
-        particles2.rotation.z -= 0.005;
-
-        planet1System.rotation.x -= 0.0025;
-        planet1System.rotation.y -= 0.007;
-        planet1System.rotation.z -= 0.005;
-        planet2System.rotation.x -= 0.0025;
-        planet2System.rotation.y -= 0.007;
-        planet2System.rotation.z -= 0.005;
-        planet3System.rotation.x -= 0.0025;
-        planet3System.rotation.y -= 0.007;
-        planet3System.rotation.z -= 0.005;
-        planet4System.rotation.x -= 0.0025;
-        planet4System.rotation.y -= 0.007;
-        planet4System.rotation.z -= 0.005;
-    } else {
-        planet3Mesh.material.opacity = 1;
-        scene.remove(textObject3);
-    }
     const planet4_intersects = raycaster.intersectObject(planet4System);
-    if (planet4_intersects.length > 0 && planet1_intersects <= 0 && planet2_intersects <= 0 && planet3_intersects <= 0) {
-        planet4Mesh.material.opacity = 0.5;
-        scene.add(textObject4);
+
+    if (planet1_intersects.length > 0 || planet2_intersects.length > 0 || planet3_intersects.length > 0 || planet4_intersects.length > 0) {
         particles.rotation.x -= 0.0025;
         particles.rotation.y -= 0.007;
         particles.rotation.z -= 0.005;
@@ -384,16 +274,39 @@ const animate = () => {
         planet4System.rotation.x -= 0.0025;
         planet4System.rotation.y -= 0.007;
         planet4System.rotation.z -= 0.005;
-    } else {
-        planet4Mesh.material.opacity = 1;
-        scene.remove(textObject4);
+
+        if (planet1_intersects.length > 0) {
+            planet1Mesh.material.opacity = 0.5;
+
+            updateInfoText('The Art of Life is an innovative artistic project that aims to enhance the\ninteractivity in immersive art installations. By putting the human at the center of a generative artistic performance, \nthe Art of Life bring a platform for the users to both listen and vizualise themselves.\nThis can be used for relaxation purposes or just as an artistic experience.');
+
+        }
+        if (planet2_intersects.length > 0 && planet1_intersects.length <= 0) {
+            planet2Mesh.material.opacity = 0.5;
+            updateInfoText('By putting multiple biometrical sensors on its users, the installation can analyze their physiological state.\nThe sensors used in this project are an Electrocardiograph, monitoring the heart rate, \nan Electrodermal activity sensor, monotoring the electrical properties of the skin, \nand a breathing sensor monitoring the breathing rate of its users.')
+
+        }
+        if (planet3_intersects.length > 0 && planet1_intersects.length <= 0 && planet2_intersects.length <= 0) {
+            planet3Mesh.material.opacity = 0.5;
+            updateInfoText('The users raw data is processed to make it readable by the different softwares used to convert the said data.\nReceived as arrays of value, the processing outputs simple values, such as the beating per minute or breaths per minute.')
+        }
+        if (planet4_intersects.length > 0 && planet1_intersects.length <= 0 && planet2_intersects.length <= 0 && planet3_intersects.length <= 0) {
+            planet4Mesh.material.opacity = 0.5;
+            updateInfoText('The processed data is finally sent to different softwares, such as FL Studio for the sonification or MadMapper for the video-mapping of the data.\nThe mapping is projected on a 3D Sculpture placed on a wall in front of the users, showing visuals that reflects the physiological signals received.\nWhile the visuals are shown, music is generated in an headset for the users to listen to, giving a melody to their own body.')
+        }
     }
+    else {
+        planet1Mesh.material.opacity = 1;
+        planet2Mesh.material.opacity = 1;
+        planet3Mesh.material.opacity = 1;
+        planet4Mesh.material.opacity = 1;
+        updateInfoText('');
+    }
+
 
     //#endregion
 
-    // Render the scene
-    renderer.render(scene, camera);
-    labelRenderer.render(scene, camera);
+
 }
 
 // Call animate for the first time
